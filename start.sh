@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function accessLogTools {
-    local _VERSION="0.1.0";
+    local _VERSION="0.2.0";
     local _SOURCEDIR=$(realpath $( dirname "${BASH_SOURCE[0]}" ));
 
     echo "###################################";
@@ -16,10 +16,8 @@ function accessLogTools {
     . "${_CONFIGFILE}";
     local _LOGFILE="${_LOGSDIR}/${_LOGFILENAME}";
 
+    # Basic checks
     . "${_SOURCEDIR}/inc/checks.sh";
-
-
-    # Alert
 
     # Load a function if it exists for the given command
     local _COMMAND="$1";
