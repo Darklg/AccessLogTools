@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function accessLogTools {
-    local _VERSION="0.2.0";
+    local _VERSION="0.2.1";
     local _SOURCEDIR=$(realpath $( dirname "${BASH_SOURCE[0]}" ));
 
     echo "###################################";
@@ -25,8 +25,7 @@ function accessLogTools {
     if [ -f "${_FUNCTIONFILE}" ]; then
         . "${_FUNCTIONFILE}";
     else
-        echo "Error: Command '${_COMMAND}' not found. Use 'help' for a list of available commands.";
-        return 1;
+        . "${_SOURCEDIR}/inc/tools/help.sh";
     fi
 
 }
