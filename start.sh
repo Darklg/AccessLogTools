@@ -1,20 +1,32 @@
 #!/bin/bash
 
 function accessLogTools {
-    local _VERSION="0.2.1";
+    local _VERSION="0.2.2";
     local _SOURCEDIR=$(realpath $( dirname "${BASH_SOURCE[0]}" ));
+    local _LOGFILEARG="";
 
     echo "###################################";
     echo "# Access log tools v ${_VERSION}";
     echo -e "###################################\n";
 
-    # Load config
-    local _CONFIGFILE="${_SOURCEDIR}/config.sh";
-    if [ ! -f "${_CONFIGFILE}" ]; then
-        . "${_SOURCEDIR}/inc/install.sh";
-    fi
-    . "${_CONFIGFILE}";
-    local _LOGFILE="${_LOGSDIR}/${_LOGFILENAME}";
+    # Detect arguments
+    for arg in "$@"; do
+        case "$arg" in
+            --logfile=*)
+                _LOGFILEARG="${arg#*=}"
+                if [ ! -f "${_LOGFILEARG}" ]; then
+                    echo "Error: Log file specified in --logfile does not exist.";
+                    return 0;
+                fi
+                ;;
+        esac
+    done
+
+    # Auto-detect values
+    . "${_SOURCEDIR}/inc/detect.sh";
+
+    # Load functions
+    . "${_SOURCEDIR}/inc/functions.sh";
 
     # Basic checks
     . "${_SOURCEDIR}/inc/checks.sh";
@@ -28,7 +40,7 @@ function accessLogTools {
         . "${_SOURCEDIR}/inc/tools/help.sh";
     fi
 
+    . "${_SOURCEDIR}/inc/stop.sh";
 }
-
 
 accessLogTools "$@";
